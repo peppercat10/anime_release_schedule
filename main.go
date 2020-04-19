@@ -66,9 +66,6 @@ func getAnimePage(animeName string) string {
 			break
 		}
 	}
-	if wantedHref == "" {
-		panic("Anime not found!")
-	}
 	return wantedHref
 }
 
@@ -94,7 +91,14 @@ func printAnimeBroadcastDate(animeName string, date string) {
 func main() {
 	animes := getAnimeList()
 	for _, anime := range animes {
+		if anime == "" {
+			continue
+		}
 		animePage := getAnimePage(anime)
+		if animePage == "" {
+			fmt.Println(anime + ": Could not find anything.")
+			continue
+		}
 		broadcastDate := findBroadcastDateInAnimePage(animePage)
 		printAnimeBroadcastDate(anime, broadcastDate)
 		time.Sleep(2)
